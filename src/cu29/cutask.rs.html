@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `core/cu29/src/cutask.rs`."><title>cutask.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-42caa33d.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cu29" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (917a50a03 2024-11-15)" data-channel="nightly" data-search-js="search-b6b1fcd2.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">cu29/</div>cutask.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `core/cu29/src/cutask.rs`."><title>cutask.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-42caa33d.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cu29" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b19329a37 2024-11-21)" data-channel="nightly" data-search-js="search-92e6798f.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">cu29/</div>cutask.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -261,14 +261,10 @@
 <a href="#260" id="260">260</a>
 <a href="#261" id="261">261</a>
 <a href="#262" id="262">262</a>
-<a href="#263" id="263">263</a>
-<a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a></pre></div><pre class="rust"><code><span class="doccomment">//! This module contains all the main definition of the traits you need to implement
+<a href="#263" id="263">263</a></pre></div><pre class="rust"><code><span class="doccomment">//! This module contains all the main definition of the traits you need to implement
 //! or interact with to create a Copper task.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::clock::OptionCuTime;
-<span class="kw">use </span><span class="kw">crate</span>::config::ComponentConfig;
+</span><span class="kw">use </span><span class="kw">crate</span>::config::ComponentConfig;
 <span class="kw">use </span><span class="kw">crate</span>::CuResult;
 <span class="kw">use </span>bincode::de::Decoder;
 <span class="kw">use </span>bincode::de::{BorrowDecoder, Decode};
@@ -277,7 +273,7 @@
 <span class="kw">use </span>bincode::error::{DecodeError, EncodeError};
 <span class="kw">use </span>bincode::BorrowDecode;
 <span class="kw">use </span>compact_str::{CompactString, ToCompactString};
-<span class="kw">use </span>cu29_clock::RobotClock;
+<span class="kw">use </span>cu29_clock::{PartialCuTimeRange, RobotClock, Tov};
 <span class="kw">use </span>serde_derive::{Deserialize, Serialize};
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
@@ -362,12 +358,11 @@
 <span class="doccomment">/// CuMsgMetadata is a structure that contains metadata common to all CuMsgs.
 </span><span class="attr">#[derive(Debug, Clone, bincode::Encode, bincode::Decode, Serialize, Deserialize)]
 </span><span class="kw">pub struct </span>CuMsgMetadata {
-    <span class="doccomment">/// The time before the process method is called.
-    </span><span class="kw">pub </span>before_process: OptionCuTime,
-    <span class="doccomment">/// The time after the process method is called.
-    </span><span class="kw">pub </span>after_process: OptionCuTime,
+    <span class="doccomment">/// The time range used for the processing of this message
+    </span><span class="kw">pub </span>process_time: PartialCuTimeRange,
     <span class="doccomment">/// The time of validity of the message.
-    </span><span class="kw">pub </span>tov: OptionCuTime,
+    /// It can be undefined (None), one measure point or a range of measures (TimeRange).
+    </span><span class="kw">pub </span>tov: Tov,
     <span class="doccomment">/// A small string for real time feedback purposes.
     /// This is usefull for to display on the field when the tasks are operating correctly.
     </span><span class="kw">pub </span>status_txt: CuCompactString,
@@ -383,8 +378,8 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">write!</span>(
             f,
-            <span class="string">"before_process: {}, after_process: {}"</span>,
-            <span class="self">self</span>.before_process, <span class="self">self</span>.after_process
+            <span class="string">"process_time start: {}, process_time end: {}"</span>,
+            <span class="self">self</span>.process_time.start, <span class="self">self</span>.process_time.end
         )
     }
 }
@@ -405,9 +400,8 @@
 <span class="kw">impl </span>Default <span class="kw">for </span>CuMsgMetadata {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         CuMsgMetadata {
-            before_process: OptionCuTime::none(),
-            after_process: OptionCuTime::none(),
-            tov: OptionCuTime::none(),
+            process_time: PartialCuTimeRange::default(),
+            tov: Tov::default(),
             status_txt: CuCompactString(CompactString::with_capacity(COMPACT_STRING_CAPACITY)),
         }
     }
